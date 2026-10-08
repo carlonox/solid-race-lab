@@ -86,16 +86,3 @@ En `docs/` encuentras:
 - **Material-Estudio-SOLID.pdf** — teoría de cada principio con ejemplos
   tomados de este mismo proyecto, para repasar antes o después del taller.
 
-## Para el profesor
-
-Este repositorio tiene dos ramas:
-
-- `main` — la versión que reciben los estudiantes (con los `TODO`).
-- `solution` — la solución de referencia completa, usada para validar
-  que las pruebas realmente miden lo correcto. **No la compartas con los
-  estudiantes** (o bórrala/oculta antes de repartir el repositorio).
-
-```bash
-git checkout solution   # ver / correr la solución completa
-git checkout main       # volver a la versión de los estudiantes
-```
