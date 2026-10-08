@@ -22,6 +22,7 @@ Run it to see the current (broken) behavior:
 Check your work:
     pytest tests/test_ex3_lsp.py -v
 """
+
 import random
 
 from engine.track import Track
@@ -45,7 +46,7 @@ class Vehicle:
 
 
 class SteadyCar(Vehicle):
-    symbol = "\U0001F697"
+    symbol = "\U0001f697"
 
     def move(self) -> None:
         self.position += 4
@@ -57,19 +58,12 @@ class UnreliableCar(Vehicle):
     ever moves forward and never raises. Fix move() below.
     """
 
-    symbol = "\U0001F699"
+    symbol = "\U0001f699"
 
     def move(self) -> None:
-        # TODO(LSP): rewrite this so it never raises and never decreases
-        # `self.position`. "Unreliable" can still mean something (e.g.
-        # occasionally staying in place) -- it just can't break the
-        # Vehicle contract.
         roll = random.random()
-        if roll < 0.15:
-            raise RuntimeError(f"{self.name} broke down!")
-        elif roll < 0.30:
-            self.position -= 3  # ran out of gas and rolled back downhill
-        else:
+        # Aun permite que se quede quieto con un 70% de probabilidad.
+        if roll < 0.30:
             self.position += 5
 
 
