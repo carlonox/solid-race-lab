@@ -28,11 +28,12 @@ Run it to see (and hear silence from) your fix:
 Check your work:
     pytest tests/test_ex1_srp.py -v
 """
+
 from engine.track import Track
 
 
 class Car:
-    def __init__(self, name: str, speed: int, symbol: str = "\U0001F697"):
+    def __init__(self, name: str, speed: int, symbol: str = "\U0001f697"):
         self.name = name
         self.speed = speed
         self.symbol = symbol
@@ -40,24 +41,35 @@ class Car:
 
     def move(self) -> None:
         self.position += self.speed
-        # TODO(SRP): remove this print -- rendering is Track's job, not Car's.
-        print(f"{self.name} is now at {self.position}m")
-        # TODO(SRP): remove this -- logging is not Car's job either.
-        with open("race_log.txt", "a", encoding="utf-8") as f:
-            f.write(f"{self.name}={self.position}\n")
 
 
-# TODO(SRP): write a RaceLogger class here (see the docstring above for
-# the exact methods it needs).
+class RaceLogger:  # Logea informacion de los los corredores
+    def __init__(self):
+        self._entries = []
+
+    def record(self, tick, racers):
+        for racer in racers:
+            self._entries.append(
+                f"tick {tick}: {racer.name}={racer.position}"
+            )  # Guarda la info de los corredores en entries.
+
+    @property
+    def entries(self):  # Devuelve lo guardado en la lista entries.
+        return list(self._entries)
+
+    def save(self, path="race_log.txt"):
+        with open(path, "w", encoding="utf-8") as f:
+            f.write("\n".join(self._entries) + "\n")
 
 
 def main():
     cars = [Car("Red", 4), Car("Blue", 5), Car("Green", 3)]
-    # TODO(SRP): create a RaceLogger, pass its `record` method as the
-    # `on_tick` callback to Track.run(...), and call `logger.save()`
-    # after the race finishes.
+
+    logger = RaceLogger()
+
     track = Track(length=30)
-    track.run(cars)
+    track.run(cars, on_tick=logger.record)
+    logger.save()
 
 
 if __name__ == "__main__":
